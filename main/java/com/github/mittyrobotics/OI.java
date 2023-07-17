@@ -24,29 +24,11 @@
 
 package com.github.mittyrobotics.util;
 
-import com.github.mittyrobotics.climb.commands.WinchDownAutomatedCommand;
-import com.github.mittyrobotics.climb.commands.WinchDownCommand;
-import com.github.mittyrobotics.climb.commands.WinchUpAutomatedCommand;
-import com.github.mittyrobotics.climb.commands.WinchUpCommand;
-import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
-import com.github.mittyrobotics.conveyor.commands.manual.EmergencyOuttakeCommand;
-import com.github.mittyrobotics.conveyor.commands.manual.UnloadConveyorCommand;
-import com.github.mittyrobotics.intake.commands.manual.IntakeBallCommand;
-import com.github.mittyrobotics.intake.commands.manual.OuttakeBallCommand;
-import com.github.mittyrobotics.shooter.HoodSubsystem;
-import com.github.mittyrobotics.shooter.ShooterConstants;
-import com.github.mittyrobotics.shooter.commands.automatic.AimingCommand;
-import com.github.mittyrobotics.shooter.commands.automatic.AutomaticFlywheelRPMCommand;
-import com.github.mittyrobotics.shooter.commands.automatic.AutomaticHoodPositionCommand;
-import com.github.mittyrobotics.shooter.commands.manual.FlywheelRPMCommand;
-import com.github.mittyrobotics.shooter.commands.manual.FlywheelSingleUpdateDown;
-import com.github.mittyrobotics.shooter.commands.manual.FlywheelSingleUpdateUp;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.button.Button;
+
 /**
  * OI Class to manage all controllers and input
  */
@@ -58,7 +40,7 @@ public class OI {
     private XboxController operatorController;
     private PS4Controller driveTestingController;
 
-    private boolean isIntaking, isEjecting, isUnloading, isOuttaking;
+    //private boolean isIntaking, isEjecting, isUnloading, isOuttaking;
 
     public static OI getInstance() {
         if (instance == null) {
@@ -69,21 +51,21 @@ public class OI {
 
     public XboxController getThrottleWheel() {
         if (throttleWheel == null) {
-            throttleWheel = new XboxController(OIConstants.THROTTLE_WHEEL_ID);
+            throttleWheel = new XboxController(3);
         }
         return throttleWheel;
     }
 
     public XboxController getSteeringWheel() {
         if (steeringWheel == null) {
-            steeringWheel = new XboxController(OIConstants.STEERING_WHEEL_ID);
+            steeringWheel = new XboxController(2);
         }
         return steeringWheel;
     }
 
     public XboxController getOperatorController() {
         if (operatorController == null) {
-            operatorController = new XboxController(OIConstants.OPERATOR_CONTROLLER_ID);
+            operatorController = new XboxController(1);
         }
 
         return operatorController;
@@ -91,12 +73,37 @@ public class OI {
 
     public PS4Controller getDriveController() {
         if(driveTestingController == null){
-            driveTestingController = new PS4Controller(OIConstants.DRIVER_CONTROLLER);
+            driveTestingController = new PS4Controller(0);
         }
 
         return driveTestingController;
     }
 
+
+    //rolling function
+
+    //setter
+    public void setRolling(boolean rolling){
+            isRolling = rolling;
+
+    }
+    //getter
+
+    public boolean getRolling(){
+        return isRolling;
+
+    }
+
+    //not rolling function
+
+    //setter
+
+    //getter
+
+
+
+
+        /*
     public void setIntaking(boolean intaking) {
         isIntaking = intaking;
     }
@@ -120,14 +127,43 @@ public class OI {
     public void setOuttaking(boolean outtaking) {
         isOuttaking = outtaking;
     }
-
+     */
     public void setupControls() {
-        XboxController controller = getOperatorController();
+        XboxController controller = getOperatorController();}
 //        Button prepFenderButton = new Button(() -> controller.getLeftTriggerAxis() > 0.4);
 //        prepFenderButton.whenHeld(new ParallelCommandGroup(
 //                new FlywheelRPMCommand(ShooterConstants.FENDER_RPM),
 //                new HoodAngleCommand(ShooterConstants.FENDER_HOOD)));
 
+        Button startRoll = new Button(controller::getAbutton)
+        startRoll.whenHeld(//turn roller on)
+
+        //leftmotor
+        Button leftDrivefwd = new Button(() -> controller.getLeftTriggerAxis() > 0.4 );
+        leftDrivefwd.whenHeld(//spark forward);
+
+        //left Motor backward
+        Button leftDrivebcwd = new Button(() -> controller.getLeftTriggerAxis() > 0.4 );
+        leftDrivebcwd.whenHeld(//spark backwards);
+
+        //right motor
+
+
+        //right mototr fwd
+        Button rightDrivefwd = new Button(() -> controller.getRightTriggerAxis() > 0.4 );
+        rightDrivefwd.whenHeld(//sparkRight fwd);
+
+        //right motor bcwd
+
+
+        Button rightDrivebcwd = new Button(() -> controller.getRightTriggerAxis() > 0.4 );
+        rightDrivebcwd.whenHeld(//sparkRight bcwds);
+
+
+        
+
+
+        /*
         Button climbUp = new Button(() ->
                 (controller.getPOV() >= 0 && controller.getPOV() <= 45) ||
                 (controller.getPOV() >= 315 && controller.getPOV() <= 360));
@@ -177,7 +213,7 @@ public class OI {
         }));
 
     }
-
+  */
     public boolean getUnload() {
         return isUnloading;
     }
@@ -189,40 +225,7 @@ public class OI {
     public void setUpTuningControls() {
         XboxController controller = getOperatorController();
 
-        Button unloadButton = new Button(controller::getBButton);
-        unloadButton.whenHeld(new UnloadConveyorCommand());
-
-//        Button intakeButton = new Button(() -> controller.getLeftTriggerAxis() >= 0.4);
-//        intakeButton.whenHeld(new StateMachineIntakeCommand());
-
-        Button emergencyOuttakeButton = new Button(controller::getAButton);
-        emergencyOuttakeButton.whenHeld(new OuttakeBallCommand());
-
-        Button intakeButton = new Button(() -> controller.getLeftTriggerAxis() >= 0.4 );
-        intakeButton.whenHeld(new IntakeBallCommand());
-
-        Button autoFlywheel = new Button(controller::getRightBumper);
-        autoFlywheel.whenHeld(new AutomaticFlywheelRPMCommand());
-
-        Button autoHood = new Button(controller::getLeftBumper);
-        autoHood.whenHeld(new AutomaticHoodPositionCommand());
-
-        Button RPMUp = new Button(controller::getRightBumper);
-        RPMUp.whenPressed(new FlywheelSingleUpdateUp());
-
-        Button RPMDown = new Button(controller::getLeftBumper);
-        RPMDown.whenPressed(new FlywheelSingleUpdateDown());
-
-        Button HoodUp = new Button(controller::getYButton);
-        HoodUp.whenPressed(new InstantCommand(() -> HoodSubsystem.getInstance().setHoodPosition(HoodSubsystem.getInstance().getHoodPosition() + 0.05)));
-
-        Button HoodDown = new Button(controller::getXButton);
-        HoodDown.whenPressed(new InstantCommand(() -> HoodSubsystem.getInstance().setHoodPosition(HoodSubsystem.getInstance().getHoodPosition() - 0.05)));
-
-        Button resetStateMachineButton = new Button(controller::getRightStickButton);
-        resetStateMachineButton.whenPressed(new InstantCommand(() -> {
-            ConveyorSubsystem.getInstance().reset();
-        }));
+        
     }
 
     private void triggerFunctionAfterTime(Runnable runnable, long time){
