@@ -134,27 +134,27 @@ public class OI {
 //                new FlywheelRPMCommand(ShooterConstants.FENDER_RPM),
 //                new HoodAngleCommand(ShooterConstants.FENDER_HOOD)));
 
-Button startRoll = new Button(controller::getAButton);
-startRoll.whenHeld(//turn roller on);
+        Button startRoll = new Button(controller::getAButton);
+        startRoll.whenHeld(//turn roller on);
 
-//left motor
-Button leftDriveFwd - new Button(() -> controller.getLeftTriggerAxis() > 0.4);
-leftDrive.whenHeld(//sparkLeftforward);
+        //left motor
+        Button leftDriveFwd - new Button(( -> controller.getLeftTriggerAxis() > 0.4));
+        leftDrive.whenHeld(//sparkLeftforward);
 
-//left motor backwards
-Button leftDriveBckwd = new Button(() -> controller.getLeftTriggerAxis()) < 0.4);
-leftDrive.whenHeld(//sparkLeft backwards)
-
-
+        //left motor backwards
+        Button leftDriveBckwd = new Button(( -> controller.getLeftTriggerAxis() < 0.4));
+        leftDrive.whenHeld(//sparkLeft backwards)
 
 
-//right motor
-Button rightDriveFwd - new Button(() -> controller.getRightTriggerAxis() > 0.4);
-rightDrive.whenHeld(//sparkRightforward);
 
-//right motor backwards
-Button rightDriveBckwd = new Button(() -> controller.getRightTriggerAxis()) < 0.4);
-rightDrive.whenHeld(//sparkRight backwards)
+
+        //right motor
+        Button rightDriveFwd - new Button(( -> controller.getRightTriggerAxis() > 0.4));
+        rightDrive.whenHeld(//sparkRightforward);
+
+        //right motor backwards
+        Button rightDriveBckwd = new Button(( -> controller.getRightTriggerAxis() < 0.4));
+        rightDrive.whenHeld(//sparkRight backwards)
 
 
 /*
