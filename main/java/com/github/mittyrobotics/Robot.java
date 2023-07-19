@@ -180,7 +180,7 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         //backwards to score
 
-        if (encoder.getDistance <= 90){
+        if (encoder.getDistance <= 32.5){
             sparkLeft.set(-0.5);
             sparkRight.set(-0.5);
         } else{
@@ -191,7 +191,7 @@ public class Robot extends TimedRobot {
         
         //option 1 -> get left ball -> get middle ball -> go
         //angled to the left ball
-        if (angleZ < 161.565){
+        if (angleZ < 157.865){
             sparkLeft.set(0.5);
             sparkRight.set(-0.5);
 
@@ -202,7 +202,7 @@ public class Robot extends TimedRobot {
         }
         gyro.reset
         
-        if (encoder.getDistance <= 189.73){
+        if (encoder.getDistance <= 159.236){
             sparkLeft.set(-0.5);
             sparkRight.set(-0.5);
         } else{
@@ -223,7 +223,7 @@ public class Robot extends TimedRobot {
         }
         gyro.reset
 
-        if (encoder.getDistance <= 189.73){
+        if (encoder.getDistance <= 159.236){
             sparkLeft.set(-0.5);
             sparkRight.set(-0.5);
         } else{
@@ -244,7 +244,7 @@ public class Robot extends TimedRobot {
         }
         gyro.reset
 
-        if (encoder.getDistance <= 189.73){
+        if (encoder.getDistance <= 159.236){
             sparkLeft.set(-0.5);
             sparkRight.set(-0.5);
         } else{
@@ -265,7 +265,7 @@ public class Robot extends TimedRobot {
         }
         gyro.reset
 
-        if (encoder.getDistance <= 189.73){
+        if (encoder.getDistance <= 159.236){
             sparkLeft.set(-0.5);
             sparkRight.set(-0.5);
         } else{
@@ -274,7 +274,7 @@ public class Robot extends TimedRobot {
         
         encoder.reset
 
-        if (angleZ < 18.435){
+        if (angleZ < 22.135){
             sparkLeft.set(-0.5);
             sparkRight.set(0.5);
 
